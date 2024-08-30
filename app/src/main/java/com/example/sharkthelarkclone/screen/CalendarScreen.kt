@@ -10,8 +10,8 @@ import androidx.navigation.NavController
 fun CalendarScreen(navController: NavController) {
     Column {
         Text("This is Calendar Screen")
-        Button(onClick = { navController.navigate("ProfileScreen") }) {
-            Text("Go to Profile Screen")
+        Button(onClick = { navController.navigate("WorkSpaceScreen") }) {
+            Text("Go to WorkSpace Screen")
         }
     }
     // ... add more composable here

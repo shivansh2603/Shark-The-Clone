@@ -7,9 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun WorkSpaceScreen(navController: NavController) {
     Column {
-        Text("This is Profile Screen")
+        Text("This is WorkSpace Screen")
         Button(onClick = { navController.navigate("HomeScreen") }) {
             Text("Go to Home Screen")
         }
