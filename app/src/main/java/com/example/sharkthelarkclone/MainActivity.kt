@@ -3,28 +3,31 @@ package com.example.sharkthelarkclone
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
 //noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
+//noinspection UsingMaterialAndMaterial3Libraries
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.BottomNavigationItem
 //noinspection UsingMaterialAndMaterial3Libraries
 import androidx.compose.material.Surface
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,11 +35,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -83,16 +93,16 @@ fun Navigation(navController: NavHostController, innerPadding: PaddingValues) {
             ChatScreen(backStackEntry.arguments?.getString("chatName") ?: "")
         }
         composable("CalendarScreen") { CalendarScreen(navController) }
-        composable("ProfileScreen") { WorkSpaceScreen(navController) }
+        composable("WorkSpaceScreen") { WorkSpaceScreen(navController) }
     }
 }
 
 @Composable
 fun CustomBottomNavigationBar(navController: NavHostController) {
     val items = listOf(
-        NavigationItem("HomeScreen", Icons.Filled.Home, "Home"),
-        NavigationItem("CalendarScreen", Icons.Filled.CalendarMonth, "Calendar"),
-        NavigationItem("ProfileScreen", Icons.Filled.Person, "Profile")
+        NavigationItem("HomeScreen", R.drawable.home_24px, "Home"),
+        NavigationItem("CalendarScreen", R.drawable.calendar_month_24px, "Calendar"),
+        NavigationItem("WorkSpaceScreen", R.drawable.workspaces_24px, "WorkSpace")
     )
     var selectedIndex by remember { mutableIntStateOf(0) }
 
@@ -100,7 +110,7 @@ fun CustomBottomNavigationBar(navController: NavHostController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        color = Color(0xFF7695FF),
+        color = Color(0xFFdd855f),
         shape = RoundedCornerShape(16.dp)
     ) {
         Row(
@@ -111,13 +121,39 @@ fun CustomBottomNavigationBar(navController: NavHostController) {
         ) {
             items.forEachIndexed { index, item ->
                 BottomNavigationItem(
-                    icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
+                    icon = {
+                        Box(modifier = Modifier
+                                .drawBehind {
+                                    if (selectedIndex == index) {
+                                        drawRoundRect(
+                                            color = Color(0x33FFFFFF),
+                                            cornerRadius = CornerRadius(8.dp.toPx()),
+                                            size = size
+                                        )
+                                    }
+                                }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = item.icon),
+                                contentDescription = item.label,
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .size(24.dp)
+                            )
+                        }
+                    },
                     selected = selectedIndex == index,
                     onClick = {
                         selectedIndex = index
                         navController.navigate(item.route)
                     },
-                    label = { Text(item.label) }
+                    label = {
+                        Text(
+                            text = item.label,
+                            color = Color(0xFF23321d),
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
                 )
             }
         }
@@ -126,7 +162,7 @@ fun CustomBottomNavigationBar(navController: NavHostController) {
 
 data class NavigationItem(
     val route: String,
-    val icon: ImageVector,
+    val icon: Int,
     val label: String
 
 )
