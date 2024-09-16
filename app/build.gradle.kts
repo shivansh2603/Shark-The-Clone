@@ -1,14 +1,15 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
 android {
-    namespace = "com.example.sharkthelarkclone"
+    namespace = "com.example.twellthelarkclone"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.sharkthelarkclone"
+        applicationId = "com.example.twellthelarkclone"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
@@ -52,6 +53,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.ui.text.google.fonts.vversion)
     implementation(libs.androidx.material)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.compose)

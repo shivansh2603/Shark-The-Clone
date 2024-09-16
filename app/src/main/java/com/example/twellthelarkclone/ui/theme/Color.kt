@@ -1,4 +1,4 @@
-package com.example.sharkthelarkclone.ui.theme
+package com.example.twellthelarkclone.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
